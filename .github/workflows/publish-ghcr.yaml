@@ -1,4 +1,4 @@
-name: Docker image CI for GHCR
+name: Publish Docker Image
 
 on:
   push:
@@ -10,6 +10,6 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build and push the image
         run: |
-          docker login --username uguronrr --password ${{ secrets.GIT_PAT }} ghcr.io
+          echo ${{ secrets.GIT_PAT }} | docker login ghcr.io -u uguronrr --password-stdin
           docker build . -t ghcr.io/uguronrr/twitter-clone
           docker push ghcr.io/uguronrr/twitter-clone
