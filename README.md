@@ -10,6 +10,10 @@ In this project, I implemented a simple version of twitter-like backend API that
 
 Here are my key takeaways from this project with the resources I used in the process:
 
+- fastAPI project structure best practices
+
+--> https://github.com/zhanymkanov/fastapi-best-practices?tab=readme-ov-file#project-structure
+
 - Using fastAPI and sqlmodel to build a simple application
 --> https://www.youtube.com/watch?v=Ix-ps9MWUKA&t=1907s
   
