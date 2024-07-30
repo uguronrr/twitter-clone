@@ -11,7 +11,7 @@ def create_follow(follow: Follow, session: Session = Depends(get_session)):
     db_follow = Follow(
         FollowerID=follow.FollowerID,
         FolloweeID=follow.FolloweeID,
-        CreatedAt=datetime.utcnow(),
+        CreatedAt=datetime.now(),
     )
     session.add(db_follow)
     session.commit()

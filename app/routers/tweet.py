@@ -12,7 +12,7 @@ def create_tweet(tweet: Tweet, session: Session = Depends(get_session)):
         Content=tweet.Content,
         UserID=tweet.UserID,
         MediaURL=tweet.MediaURL,
-        CreatedAt=datetime.utcnow(),
+        CreatedAt=datetime,
     )
     session.add(db_tweet)
     session.commit()

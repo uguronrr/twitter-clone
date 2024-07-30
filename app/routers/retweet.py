@@ -11,7 +11,7 @@ def create_retweet(retweet: Retweet, session: Session = Depends(get_session)):
     db_retweet = Retweet(
         TweetID=retweet.TweetID,
         UserID=retweet.UserID,
-        CreatedAt=datetime.utcnow(),
+        CreatedAt=datetime.now(),
    
     )
     session.add(db_retweet)

@@ -11,7 +11,7 @@ def create_like(like: Like, session: Session = Depends(get_session)):
     db_like = Like(
         TweetID=like.TweetID,
         UserID=like.UserID,
-        CreatedAt=datetime.utcnow(),
+        CreatedAt=datetime.now(),
     )
     session.add(db_like)
     session.commit()

@@ -17,7 +17,7 @@ def update_user(user_id: int, user_update: User, session: Session = Depends(get_
     user = session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    user_data = user_update.dict(exclude_unset=True)
+    user_data = user_update.model_dump(exclude_unset=True)
     for key, value in user_data.items():
         setattr(user, key, value)
     session.add(user)
