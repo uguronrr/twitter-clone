@@ -1,23 +1,21 @@
 from fastapi import FastAPI
+from .database import create_db_and_tables
+from .auth import auth
+from .routers import user, tweet, retweet, like, follow
 
 app = FastAPI()
 
-@app.get("/tweets")
-async def read_tweets():
-    pass
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
 
-@app.post("/tweets")
-async def create_tweet():
-    pass
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(user.router, prefix="/users", tags=["users"])
+app.include_router(tweet.router, prefix="/tweets", tags=["tweets"])
+app.include_router(retweet.router, prefix="/retweets", tags=["retweets"])
+app.include_router(like.router, prefix="/likes", tags=["likes"])
+app.include_router(follow.router, prefix="/follows", tags=["follows"])
 
-@app.get("/tweets/{tweet_id}")
-async def read_tweet(tweet_id: int):
-    pass
-
-@app.put("/tweets/{tweet_id}")
-async def update_tweet(tweet_id: int):
-    pass
-
-@app.delete("/tweets/{tweet_id}")
-async def delete_tweet(tweet_id: int):
-    pass
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Twitter Clone API"}

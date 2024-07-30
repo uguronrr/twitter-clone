@@ -2,14 +2,36 @@ name: Publish Docker Image
 
 on:
   push:
+    branches:
+      - main  # Adjust as needed
 
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Build and push the image
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to GitHub Container Registry
+        env:
+          GIT_PAT: ${{ secrets.GIT_PAT }}
+        run: echo $GIT_PAT | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Pull existing image
+        run: docker pull ghcr.io/${{ github.repository_owner }}/twitter-clone@sha256:cb0fc080270d64f8cec904645aaf3fffe866649f804f69e924ce788b2c112efe
+
+      - name: Tag the image
         run: |
-          echo ${{ secrets.GIT_PAT }} | docker login ghcr.io -u uguronrr --password-stdin
-          docker build . -t ghcr.io/uguronrr/twitter-clone
-          docker push ghcr.io/uguronrr/twitter-clone
+          docker tag ghcr.io/${{ github.repository_owner }}/twitter-clone@sha256:cb0fc080270d64f8cec904645aaf3fffe866649f804f69e924ce788b2c112efe ghcr.io/${{ github.repository_owner }}/twitter-clone:latest
+          docker tag ghcr.io/${{ github.repository_owner }}/twitter-clone@sha256:cb0fc080270d64f8cec904645aaf3fffe866649f804f69e924ce788b2c112efe ghcr.io/${{ github.repository_owner }}/twitter-clone:cb0fc080270d
+
+      - name: Push the image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/twitter-clone:latest
+          docker push ghcr.io/${{ github.repository_owner }}/twitter-clone:cb0fc080270d
