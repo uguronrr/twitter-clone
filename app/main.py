@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from .database import create_db_and_tables
-from .auth import auth
-from .routers import user, tweet, retweet, like, follow
+from .routers import auth, user, tweet, retweet, like, follow
 
 app = FastAPI()
 
